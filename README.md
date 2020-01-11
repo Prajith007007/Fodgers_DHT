@@ -64,7 +64,7 @@ Add additional notes about how to deploy this on a live system
 ## Authors
 
 * **Prajith Kesava Prasad** - *Initial work* - [Fodgers-DHT](https://github.com/prajith007007)
-
+* **Nizamudeen A**
 
 ## License
 
