@@ -110,11 +110,15 @@ def upload():
     for file in request.files.getlist("file"):
         print(file)
         filename = file.filename
-        destination = "/".join([target, filename])
-        file.save(destination)
-        os.system('python encryption.py')
-        flash("File Uploaded", "success")
-        return redirect(url_for('upload'))
+        if filename :
+            destination = "/".join([target, filename])
+            file.save(destination)
+            os.system('python encryption.py')
+            flash("File Uploaded", "success")
+            return redirect(url_for('upload'))
+        else:
+            flash("Please attach a file","danger")
+            return redirect(url_for('upload'))
 
     return render_template("upload.html")
 
