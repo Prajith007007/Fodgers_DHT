@@ -3,7 +3,7 @@ import glob
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto import Random
-from fsplit.filesplit import FileSplit
+from fsplit.filesplit import Filesplit
 
 
 def encryption(file):
@@ -44,10 +44,9 @@ def sharding(file_name):
         os.makedirs('sample_sharded')
     except:
         pass
-    filesize = str(os.path.getsize(file_name)).zfill(16)
-    fs = FileSplit(file=file_name, splitsize=int(
-        filesize)/4, output_dir="sample_sharded/")
-    fs.split()
+    filesize = int(str(os.path.getsize(file_name)).zfill(16))/4
+    fs = Filesplit()
+    fs.split(file=file_name, split_size=int(filesize), output_dir="sample_sharded/")
 
 
 def main():

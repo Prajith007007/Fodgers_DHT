@@ -113,7 +113,7 @@ def upload():
         if filename :
             destination = "/".join([target, filename])
             file.save(destination)
-            os.system('python encryption.py')
+            os.system('python utils/encryption.py')
             flash("File Uploaded", "success")
             return redirect(url_for('upload'))
         else:
