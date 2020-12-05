@@ -3,6 +3,9 @@
 Update the project details
 ## Getting Started
 
+Join trello board, and pick a card ;-)
+https://trello.com/invite/b/RiiWgGu9/f2d0bb4922960ce320eba4a1b6f9fa56/init-fodgers-dht
+
 Add deployment notes here
 ### Prerequisites
 
