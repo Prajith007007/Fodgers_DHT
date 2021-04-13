@@ -9,6 +9,10 @@ https://trello.com/invite/b/RiiWgGu9/f2d0bb4922960ce320eba4a1b6f9fa56/init-fodge
 Add deployment notes here
 ### Prerequisites
 
+1) Familarity with django,python
+2) Familarity with design of DApps
+3) Familarity with blockchain is a huge plus
+
 Supporting rpms which is required is mentioned here
 ```
 Give examples
