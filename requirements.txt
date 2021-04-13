@@ -1,2 +1,2 @@
 cryptography==2.8
-filesplit==3.0.1
+filesplit==3.0.2
