@@ -99,7 +99,7 @@ def logout():
     flash("You are Logged out","danger")
     return redirect(url_for('login'))
 
-@app.route("/imageUpdate",methods=["POST"])
+@app.route("/fileUpdate",methods=["POST"])
 def imageUpdate():
     target = os.path.join(APP_ROOT,'images/')
 
@@ -113,11 +113,6 @@ def imageUpdate():
             destination = "/".join([target, filename])
             file.save(destination)
             os.system('python utils/encryption.py')
-            flash("File Uploaded", "success")
-            return redirect(url_for('upload'))
-        else:
-            flash("Please attach a file","danger")
-            return redirect(url_for('upload'))
 
 
 
