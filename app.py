@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 #from sqlalchemy.orm import scoped_session, sessionmaker
 from passlib.hash import sha256_crypt
 from functools import wraps
-
+import requests
 import os
 
 app = Flask(__name__)
@@ -137,6 +137,15 @@ def upload():
             file.save(destination)
             os.system('python utils/encryption.py')
             flash("File Uploaded", "success")
+             //this is a temp hardcoded value for node we will change it later. 
+            test_response = requests.post( 'http://localhost:3000/upload' , files = {"form_field_name": file})
+            if test_response.ok:
+             flash("Upload completed successfully!" ,"success")
+            else:
+             flash("Something went wrong!")
+
+
+            # content = response.content
             return redirect(url_for('upload'))
         else:
             flash("Please attach a file","danger")
