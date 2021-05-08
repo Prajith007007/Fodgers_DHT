@@ -43,6 +43,7 @@ def home():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    #flash(request.url_root)
     if request.method == "POST":
         name = request.form.get("name_field")
         username = request.form.get("user_field")
@@ -56,6 +57,12 @@ def register():
         if password == confirm:
             if user is None:
                 new_user = Users(name=name, username=username, email=email, password=secure_password)
+                test_response = requests.post('http://pj007.pythonanywhere.com/registerNetwork', json={'email_field': email, 'host_url_field': request.url_root})   
+                if test_response.ok:
+                    flash("host has been registered")
+                else:
+                    return "error"
+
                 db.session.add(new_user)
                 db.session.commit()
                 flash("You are registered and can login","success")
@@ -83,7 +90,11 @@ def login():
         else:
             if user and sha256_crypt.verify(password, user.password):
                 session["log"] = True
-
+                test_response = requests.post('http://pj007.pythonanywhere.com/updateNetwork', json={'email_field': user.email, 'host_url_field': request.url_root})   
+                if test_response.ok:
+                    print()
+                else:
+                    return "error"
                 flash("You are now login","success")
                 return redirect(url_for('home'))
             else:
