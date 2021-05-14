@@ -4,12 +4,17 @@ from flask_sqlalchemy import SQLAlchemy
 #from sqlalchemy.orm import scoped_session, sessionmaker
 from passlib.hash import sha256_crypt
 from functools import wraps
+
 import requests
 import os
+
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.user_sqlite3'
+
 db = SQLAlchemy(app)
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
