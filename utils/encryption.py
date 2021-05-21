@@ -1,84 +1,92 @@
-import os, random, struct
 import glob
-from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
-from Crypto import Random
-from fsplit.filesplit import Filesplit
-import decryption as de
+import os
+import requests
+import json
 
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-def encryption(file, decryption = False):
-    password = "justAsamplePassword"
-    hash = SHA256.new(password.encode('utf-8'))
-    key = hash.digest()
-    IV = Random.new().read(16)
-    encryptor = AES.new(key, AES.MODE_CBC, IV)
-    chunksize = 64 * 1024
-
-    if decryption == False:
-        
-        name = SHA256.new(file.encode('utf-8'))
-        name = str(name.digest())
-        outputFile = name
-        filesize = os.path.getsize(file)
-        with open(file, 'rb') as infile:
-            try:
-                os.makedirs('sample_encrypted')
-            except OSError:
-                pass
-            with open(os.path.join('sample_encrypted', outputFile), 'wb') as outfile:
-                outfile.write(struct.pack('<Q', filesize))
-                outfile.write(IV)
-
-                while True:
-                    chunk = infile.read(chunksize)
-
-                    if len(chunk) == 0:
-                        break
-                    elif len(chunk) % 16 != 0:
-                        chunk += b' ' * (16 - (len(chunk) % 16))
-
-                    outfile.write(encryptor.encrypt(chunk))
-        sharding(os.path.join('sample_encrypted', outputFile))
+URL = "http://pj007.pythonanywhere.com/"
+os.system("touch metadata.txt")
+# This Method creates shards in a directory which can be later used for processing
+def createShards(file,email):
+    trueWriteName=writeMeta(file.name,email)
+    target = os.path.join(APP_ROOT,'shards/')
+    if not os.path.isdir(target):
+        os.mkdir(target)
     
+    
+    nodes = getNodes()
+
+    #print("zfec -d="+target+" "+"-p"+" "+email+"_1_"+" "+file.name)
+    m=str(len(nodes))
+    n=str(len(nodes))
+    os.system("zfec -d="+target+" "+"-p"+" "+trueWriteName+" -m "+m+" -k "+n+" "+file.name)
+    shardList = glob.glob(target+"/"+"*.fec")
+    print(shardList)
+    processShards(target, shardList, email)
+
+
+def processShards(folder,shards,email):
+    
+    nodes = getNodes()
+    print(nodes)
+    for i in range(len(shards)):
+        sendShard(nodes[i],shards[i],email)
+
+def sendShard(node,file,email):
+    file = open(file)
+    files = {'user_image': open(file.name, 'rb')}
+
+    # flash("File Uploaded", "success")
+    #url=node+'imageUpdate'
+    #print(url)
+    data={
+        'email':email
+    }
+    #data.append({'email':email})
+    test_response = requests.post(node+'imageUpdate', files=files,data=data)
+    if test_response.ok:
+        print("Shard uploaded successfully to "+str(node))
     else:
-        with open(file, 'rb') as infile:
-            origsize = struct.unpack('<Q', infile.read(struct.calcsize('Q')))[0]
-            iv = infile.read(16)
-            decryptor = AES.new(key, AES.MODE_CBC, iv)
-            try:
-                os.makedirs('decrypted_file')
-            except OSError:
-                pass
-            with open(os.path.join('decrypted_file', file), 'wb') as outfile:
-                while True:
-                    chunk = infile.read(chunksize)
-                    if len(chunk) == 0:
-                        break
-                    outfile.write(decryptor.decrypt(chunk))
-                outfile.truncate(origsize)
+        print("Upload failed"+test_response.response)
 
-def sharding(file_name):
-    try:
-        os.makedirs('sample_sharded')
-    except:
-        pass
-    filesize = int(str(os.path.getsize(file_name)).zfill(16))/4
-    fs = Filesplit()
-    fs.split(file=file_name, split_size=int(filesize), output_dir="sample_sharded/")
 
-def main():
-    path = 'deploy/*'
-    dir_path = glob.glob(path)
-    print ("Enter Option")
-    op = int(input("1. ENCRYPT DATA \n2. DECRYPT DATA \n3. EXIT \n"))
-    while op < 3:
-        if op == 1:
-            for file in dir_path:
-                encryption(file)
-        if op == 2:
-            de.merged()
-        op = int(input("1. ENCRYPT DATA \n2. DECRYPT DATA \n3. EXIT \n"))
 
-if __name__ == "__main__":
-    main()
+def getNodes():
+    hosts = requests.get(URL+'fetchHosts')
+    print(hosts.json())
+    hostList = []
+    for i in hosts.json():
+        #print(i['email'])
+        #print(i['hosturl'])
+        hosturl = i['hosturl']
+        if 'ngrok' in hosturl:
+            hostList.append(i['hosturl'])
+    print(hostList)
+    return hostList
+
+def getLengthFromMeta():
+    counter=0
+    f = open("metadata.txt","r")
+    content = f.read()
+    coList = content.split("\n")
+    for i in coList:
+        counter+=1
+    return "_"+str(counter)+"_"
+
+def writeMeta(filename,email):
+    writeName = filename.split(".")
+    trueWriteName = email+getLengthFromMeta()+"."+writeName[1]
+    f = open("metadata.txt","a")
+    f.write(trueWriteName+"\n")
+    f.close()
+    return trueWriteName
+
+file = open('/home/pkesavap/Pictures/photos/DSCN0937.JPG','rb')
+print(file.name)
+
+
+getNodes()
+createShards(file, "prajithprasad112@gmail.com")
+#sendShard("http://127.0.0.1:3000/",file)
+#processShards(file,"prajithprasad112")

@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,logging,url_for,redirect,flash
+from flask import Flask,render_template,request,session,logging,url_for,redirect,flash,jsonify,json
 from flask_sqlalchemy import SQLAlchemy
 #from sqlalchemy import create_engine
 #from sqlalchemy.orm import scoped_session, sessionmaker
@@ -15,14 +15,18 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.user_sqlite3'
 
 db = SQLAlchemy(app)
 
+URL = "http://pj007.pythonanywhere.com/"
+
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(300), nullable=False)
+
 app.config['SECRET_KEY'] = '1234567DHTCONSOLE'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -42,6 +46,8 @@ def home():
 #Route for registering the user.
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    db.init_app(app)
+    db.create_all()
     #flash(request.url_root)
     if request.method == "POST":
         name = request.form.get("name_field")
@@ -50,11 +56,18 @@ def register():
         password = request.form.get("password_field")
         confirm = request.form.get("password_confirm")
         secure_password = sha256_crypt.encrypt(str(password))
+        
         user = Users.query.filter_by(username=username).first()
+        
+
         if password == confirm:
             if user is None:
+                
+
                 new_user = Users(name=name, username=username, email=email, password=secure_password)
-                test_response = requests.post('http://pj007.pythonanywhere.com/registerNetwork', json={'email_field': email, 'host_url_field': request.url_root})   
+              
+
+                test_response = requests.post(URL+'registerNetwork', json={'email_field': email, 'host_url_field': request.url_root})   
                 if test_response.ok:
                     flash("host has been registered")
                 else:
@@ -86,7 +99,7 @@ def login():
         else:
             if user and sha256_crypt.verify(password, user.password):
                 session["log"] = True
-                test_response = requests.post('http://pj007.pythonanywhere.com/updateNetwork', json={'email_field': user.email, 'host_url_field': request.url_root})   
+                test_response = requests.post(URL+'updateNetwork', json={'email_field': user.email, 'host_url_field': request.url_root})   
                 if test_response.ok:
                     print()
                 else:
@@ -98,6 +111,7 @@ def login():
                 return render_template("login.html")
 
     return render_template("login.html")
+
 #Route for logout
 @app.route("/logout")
 @login_required
@@ -106,17 +120,31 @@ def logout():
     flash("You are Logged out","danger")
     return redirect(url_for('login'))
 #this endpoint allows other nodes to upload file
+
 @app.route("/imageUpdate", methods=["POST"])
 def imageUpdate():
-
+    
+   
     user_image = request.files['user_image']
+    email = request.form['email']
+    print(request.files)
+    print(request)
+    print(email)
     print(user_image)
     target = os.path.join(APP_ROOT, 'images/')
 
     if not os.path.isdir(target):
         os.mkdir(target)
+    target = os.path.join(APP_ROOT, 'images/'+email+'/')
+
+    if not os.path.isdir(target):
+        os.mkdir(target)
+
     if 'file' not in request.files:
         print('No file part') #return error response code
+        file = request.files['user_image']
+        destination = "/".join([target, file.filename])
+        file.save(destination)
     else:
         file = request.files['user_image']
         destination = "/".join([target, file.filename])
@@ -155,5 +183,29 @@ def upload():
             flash("Please attach a file","danger")
             return redirect(url_for('upload'))
     return render_template("upload.html")
+
+@app.route("/fetchAllData", methods=["GET"])
+def fetchAllData():
+    directory = os.fsencode(directory_in_str)
+    
+    for file in os.listdir(directory):
+         filename = os.fsdecode(file)
+         if filename.endswith(".asm") or filename.endswith(".py"): 
+            # print(os.path.join(directory, filename))
+           continue
+         else:
+             continue
+    email=""
+    files = {'user_image': open(filename, 'rb')} 
+    files = {'user_image': open(filename, 'rb')} 
+
+
+@app.route("/isOnline", methods=["GET"])
+def isOnline():
+    res=[]
+    res.append(({"host":"online"}))
+    return jsonify(res)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
