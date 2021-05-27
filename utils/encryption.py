@@ -3,6 +3,8 @@ import os
 import requests
 import json
 
+from flask import request
+
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 URL = "http://pj007.pythonanywhere.com/"
@@ -20,7 +22,7 @@ def createShards(file,email):
     #print("zfec -d="+target+" "+"-p"+" "+email+"_1_"+" "+file.name)
     m=str(len(nodes))
     n=str(len(nodes))
-    os.system("zfec -d="+target+" "+"-p"+" "+trueWriteName+" -m "+m+" -k "+n+" "+file.name)
+    os.system("zfec -d="+target+" "+"-p"+" "+trueWriteName+" -m "+"2"+" -k "+"2"+" "+file.name)
     shardList = glob.glob(target+"/"+"*.fec")
     print(shardList)
     processShards(target, shardList, email)
@@ -30,8 +32,9 @@ def processShards(folder,shards,email):
     
     nodes = getNodes()
     print(nodes)
+    
     for i in range(len(shards)):
-        sendShard(nodes[i],shards[i],email)
+        sendShard(nodes[0],shards[i],email)
 
 def sendShard(node,file,email):
     file = open(file)
@@ -87,6 +90,6 @@ print(file.name)
 
 
 getNodes()
-createShards(file, "prajithprasad112@gmail.com")
+createShards(file, "praji@gmail.com")
 #sendShard("http://127.0.0.1:3000/",file)
 #processShards(file,"prajithprasad112")

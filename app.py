@@ -8,6 +8,8 @@ from functools import wraps
 import requests
 import os
 
+import glob
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -184,21 +186,61 @@ def upload():
             return redirect(url_for('upload'))
     return render_template("upload.html")
 
+@app.route("/saveFiles", methods=["POST"])
+def saveFiles():
+    target = os.path.join(APP_ROOT, 'fetchedShards/')
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    
+    file = request.files['fetched_image']
+    destination = "/".join([target, file.filename])
+    file.save(destination)
+    
+    return "SuccessFull"
+
+
 @app.route("/fetchAllData", methods=["GET"])
 def fetchAllData():
-    directory = os.fsencode(directory_in_str)
+    email = request.args.get('email')
+    nodeRequest = request.args.get('node')
+    if((checkPathExist(email) == False)):
+        return "Your Data is not in this node"
+    else:
+        sendFilesAsResponse(email,nodeRequest)
     
-    for file in os.listdir(directory):
-         filename = os.fsdecode(file)
-         if filename.endswith(".asm") or filename.endswith(".py"): 
-            # print(os.path.join(directory, filename))
-           continue
-         else:
-             continue
-    email=""
-    files = {'user_image': open(filename, 'rb')} 
-    files = {'user_image': open(filename, 'rb')} 
+    return "Successful" #needs send reponse inside sendFilesAsResponse
 
+def checkPathExist(email):
+    print(email)
+    target =  os.path.join(APP_ROOT,'images/'+email)
+    print(str(target))
+    if not os.path.isdir(target):
+        return False
+    return True
+
+def sendFilesAsResponse(email, node):
+    target = os.path.join(APP_ROOT,'images/'+email)
+    if not os.path.isdir(target):
+        os.mkdir(target)
+    shardList = glob.glob(target+"/"+"*.fec")
+    print(shardList)
+    for i in range(len(shardList)):
+        file = open(shardList[i])
+        files = {'fetched_image': open(file.name, 'rb')}
+
+        # flash("File Uploaded", "success")
+         #url=node+'imageUpdate'
+        #print(url)
+  
+        #data.append({'email':email})
+        print(node+'saveFiles')
+        test_response = requests.post(node+'saveFiles', files=files)
+        print(node+'saveFiles')
+        if test_response.ok:
+            print("Shard send successfully to "+str(node))
+        else:
+            print("Sending shard to "+ str(node) +" has failed "+test_response.response)
+        
 
 @app.route("/isOnline", methods=["GET"])
 def isOnline():
