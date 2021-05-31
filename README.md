@@ -38,3 +38,10 @@ This project exists thanks to all the people who contribute. [[Contribute](CONTR
 <a href="https://github.com/Prajith007007/Fodgers_DHT/graphs/contributors">
   <img src = "https://contrib.rocks/image?repo=Prajith007007/Fodgers_DHT"/>
 </a>
+
+## Getting Started
+
+We maintain a trello board, to track major RFE, and once we get a owner for a specific task, we create a tracker issue in github and handle it accordingly.
+
+Join trello board, and pick a card ;-) https://trello.com/invite/b/RiiWgGu9/f2d0bb4922960ce320eba4a1b6f9fa56/init-fodgers-dht.
+
