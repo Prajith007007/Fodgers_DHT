@@ -29,6 +29,9 @@ class Users(db.Model):
 app.config['SECRET_KEY'] = '1234567DHTCONSOLE'
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+db.init_app(app)
+db.create_all()
+    
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -48,8 +51,6 @@ def home():
 #Route for registering the user.
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    db.init_app(app)
-    db.create_all()
     #flash(request.url_root)
     if request.method == "POST":
         name = request.form.get("name_field")
