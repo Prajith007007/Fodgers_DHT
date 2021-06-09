@@ -1,11 +1,51 @@
 {%extends "layout.html"%}
 {% block body %}
-<form class="container box" action="" method="POST">
+<div class="blur">
+    <div class="top-text">
+      <h1 class="top-text-h1" > < FD /> Forge Dth </h1>
+          <span class="btn-login">
+                <a href="/register"  class="no-link-color">Sign up </a>
+          </span>
+     </div>
+</div>
+
+
+<div class="main-body">
+    <div class="main-body-text-1">
+ 
+     </div>
+    <div class="main-body-text">
+    
+     <div class="login-card">
+     <h1>
+      Log in
+     </h1>
+     <hr/>
+     <form class="container box" action="" method="POST" class="form-box">
+             <input placeholder="Username" name="user_field" class="card-input btn-long" type="text">                  
+             </input>
+             <input placeholder="Password" name="password_field"  class="card-input btn-long" type="password">                  
+             </input>
+              <br/>  
+              <br/>
+ 
+               forgot password?
+              <br/>             
+              <br/>          
+             <input  type="submit" name="submit_button"  class="btn-long" value="Login" >  </input> 
+     </form>
+  <br/>
+             
+    </div>
+  </div>
+ </div>
+
+<!-- <form class="container box" action="" method="POST">
     <h1>Sign In</h1>
     <input type="text" name="user_field" placeholder="Username">
     <input type="password" name="password_field" placeholder="Password">
     <input type="submit" name="submit_button" value="Login">
     
     <a href="/register" target="_blank">New User? Register here.</a>
-</form>
+</form> -->
 {% endblock %}

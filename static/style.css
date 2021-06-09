@@ -1,186 +1,153 @@
-h1{
-  color: snow;
+body {
+  background-image: url(Images/img1.jpg);
+  font: normal 75% Arial, helvetica, sans-serif;
+  background-color: #000;
+  margin: 0px;
+  padding: 0px;
 }
-body{
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    position: relative;
-    background: url(Images/cloud4_1600x600.png);
-    height: 100vh;
-    background-size: cover;
-    background-position: 0 0;
-    background-repeat: repeat-x;
-    animation: animate 80s infinite;
-}
-@keyframes animate
-{
-    0% {
-        background-position: 0 0;
-    }
-    50%{
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: 0 0;
-    }
-}
-/*#header{
-    width: 100%;
-    background-color: #004d66;
-    color: white;
-    box-shadow: 0 3px 0 0 #00e6e6;
-    height: 75px;
-    font-size: 44px;
-    padding-top: 5px;
-    padding-left: 5px;
-}
-i#description_icon {
-    font-size: 35px;
-}*/
-.navbar-light .navbar-toggler {
-    color: rgba(0,0,0,.5);
-    border-color: rgba(0,0,0,.1);
-}
-.navbar{
-  background-color: #004d66;
-  box-shadow: 0 3px 0 0 #00e6e6;
+.top-text {
+  color: #fff;
+  font-size: larger;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   z-index: 1;
+  backdrop-filter: blur(2px);
+  margin-top: 0px;
+  background-color: #000;
 }
-.navbar-brand{
-  color: #FFFFFF;
-}
-a.nav-link{
-  color: #FFFFFF;
-}
-a.nav-link:hover {
-    border:1px solid #00e6e6;
-    color: #004d66;
-    opacity: 0.85;
+.form-box {
+  height: 100%;
+  width: 100%;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
 }
 
-/*Sign In & Sign Up Page CSS*/
-.box{
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background: white;
-    text-align: center;
-    box-shadow: 10px 10px 5px grey;
-}
-.box h1{
-    color: black;
-    font-weight: 500;
-}
-.box input[type= "text"],.box input[type= "email"],.box input[type= "tel"],.box input[type= "password"]{
-    background: #f2f2f2;
-    display: block;
-    margin: 9px auto;
-    text-align: left;
-    border: 1px solid #3498DB;
-    padding: 10px 10px;
-    width: 50%;
-    outline: none;
-}
-.box input[type= "text"]:hover,.box input[type= "email"]:hover,.box input[type= "tel"]:hover,.box input[type= "password"]:hover{
-    border-color: #2ecc71;
-    width: 50%;
-}
-.box input[type="submit"] {
-    border: 0;
-    background: #3498DB;
-    display: block;
-    margin: 15px auto;
-    text-align: center;
-    padding: 10px 40px;
-    cursor: pointer;
-    outline: none;
-    color: white;
-    transition: 0.25s;
-    width: 50%;
-}
-.box input[type="submit"]:hover{
-    background: #2ecc71;
-}
-a {
-    color: mediumblue;
-}
-/* File Upload CSS */
-
-.dropzone {
-    width: 60%;
-    height: 30%;
-    border: 10px dashed #004d66;
-    border-radius: 20px;
-    position: absolute;
-    margin: auto;
-    top: 26%;
-    left: 0;
-    right: 0;
-  	text-align: center;
-    background: #cce6ff;
+.top-text-h1 {
+  margin-top: 2%;
+  margin-left: 2%;
 }
 
-.dropzone p{
-    font-size: 20px;
+.flashes {
+  background-color: rgb(29, 114, 7);
+  color: #fff;
+  padding: 0px;
+  margin: 0px;
+  font-size: large;
+}
+.btn-login {
+  font-size: medium;
+  color: #fff;
+  background-color: transparent;
+  border: 2px solid #fff;
+  width: 7%;
+  border-radius: 25px;
+  justify-content: space-between;
+  padding: 1% 2% 1% 2%;
+  margin: 1% 1% 2% 1%;
+  text-align: center;
+}
+.btn-login-padding {
+  font-size: medium;
+  color: #fff;
+  background-color: transparent;
+  border: 2px solid #fff;
+  width: 7%;
+  border-radius: 25px;
+  justify-content: space-between;
+  padding: 3% 2% 1% 2%;
+  margin: 1% 1% 2% 1%;
+  text-align: center;
+}
+a,
+a:hover,
+a:focus,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+.btn-long {
+  font-size: large;
+  color: rgb(0, 0, 0);
+  background-color: #fff;
+  border: 2px solid #000;
+  border-radius: 25px;
+  text-align: center;
+  width: 30%;
+  padding: 2% 0% 2% 0%;
 }
 
-#backup_icon {
-    font-size: 60px;
+.btn-text {
+  padding: 0px;
+  margin: 0px;
+}
+.main-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: large;
+  color: rgb(0, 0, 0);
+  width: auto;
+}
+.alert-red {
+  background-color: "red";
+}
+.alert-green {
+  background-color: "green";
+}
+.main-body-text {
+  margin-top: 5%;
+  width: 50%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.main-body-text-1 {
+  margin-top: 5%;
+  width: 70%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+.login-card {
+  background-color: black;
+  border-radius: 20px;
+  color: #fff;
+  height: 370px;
+  width: 75%;
+  border-bottom: 1px #fff solid;
+  border-right: 1px #fff solid;
+  max-width: 400px;
+}
+.padding-3 {
+  padding: 3%;
 }
 
-.upload-input {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
+.more-height {
+  height: 40%;
 }
-
-.upload_button {
-	display: block;
-	width: 40%;
-	height: 10%;
-	background: #004d66;
-	color: #fff;
-	border-radius: 3px;
-	position: absolute;
-  margin: auto;
-  top: 70%;
-  left: 0;
-  right: 0;
-	box-shadow: 0 3px 0 0 #00e6e6;
-	font-size: 22px;
+.font-size {
+  font-size: large;
 }
-
-.upload_button:hover {
-	background: #010222;
-	box-shadow: 0 3px 0 0 ##00e6e6;
+.width-80 {
+  width: 80%;
 }
-
-@media (min-width:768px){
-    .box{
-        padding: 20px 0px;
-        width: 60%;
-    }
-    .box input[type= "text"],.box input[type= "email"],.box input[type= "tel"],.box input[type= "password"]{
-        width:50%;
-        padding: 14px 10px;
-    }
-    .box input[type= "text"]:hover,.box input[type= "email"]:hover,.box input[type= "tel"]:hover,.box input[type= "password"]:hover{
-        width: 50%;
-    }
-    /* File upload CSS */
-    #backup_icon {
-        font-size: 100px;
-    }
-
-    .upload_button{
-        font-size: 30px;
-    }
-    .dropzone p{
-        font-size: 30px;
-    }
+.card-input {
+  width: 75%;
+  height: 10%;
+  border-radius: 25px;
+  background-color: rgb(255, 255, 255);
+  color: rgb(54, 54, 54);
+  font-size: large;
+  text-align: center;
+  margin-top: 1.9%;
+  border-bottom: 2px rgb(68, 68, 68) solid;
+}
+.card-input::placeholder {
+  color: rgb(51, 51, 51);
 }
