@@ -7,6 +7,7 @@ from functools import wraps
 
 import requests
 import os
+import time
 
 import glob
 
@@ -117,7 +118,7 @@ def login():
                 else:
                     return "error"
                 flash("You are now login", "success")
-                return redirect(url_for('home'))
+                return redirect(url_for('upload'))
             else:
                 flash("Incorrect password", "danger")
                 return render_template("login.html")
@@ -174,7 +175,6 @@ def upload():
     target = os.path.join(APP_ROOT, 'images/')
     if not os.path.isdir(target):
         os.mkdir(target)
-
     for file in request.files.getlist("file"):
         print(file)
         filename = file.filename
@@ -184,20 +184,37 @@ def upload():
             os.system('python utils/encryption.py')
             flash("File Uploaded", "success")
            # it only picks files if its on the same path as this project, need to change that
-            files = {'user_image': open(filename, 'rb')}
+
+            files = {'user_image': open('images/' + filename, 'rb')}
             # flash("File Uploaded", "success")
-            test_response = requests.post(
-                'http://bec1e971dee4.ngrok.io/imageUpdate', files=files)
-            if test_response.ok:
-                flash("Upload completed successfully!", "success")
-            else:
-                flash("Something went wrong!")
-            # content = response.content
+            try:
+                test_response = requests.post(
+                    'http://bec1e971dee4.ngrok.io/imageUpdate', files=files)
+                if test_response.ok:
+                    flash("Upload completed successfully!", "success")
+                else:
+                    flash("Something went wrong!")
+
+            except requests.ConnectionError:
+                # should I also sys.exit(1) after this?
+                flash("uable to connet to peer")
+
+            # test_response = requests.post(
+            #     'http://bec1e971dee4.ngrok.io/imageUpdate', files=files)
+            # if test_response.ok:
+            #     flash("Upload completed successfully!", "success")
+            # else:
+            #     flash("Something went wrong!")
+            # # content = response.content
             return redirect(url_for('upload'))
         else:
             flash("Please attach a file", "danger")
             return redirect(url_for('upload'))
-    return render_template("upload.html")
+    image_names = os.listdir('static/upload')
+
+    return render_template('upload.html', image_names=image_names)
+
+    # return render_template("upload.html")
 
 
 @app.route("/saveFiles", methods=["POST"])
