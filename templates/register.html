@@ -1,6 +1,6 @@
 {%extends "layout.html"%}
 {% block body %}
-<form class="container box" action="" method="POST">
+<!-- <form class="container box" action="" method="POST">
     <h1>Sign Up</h1>
     <input type="text" name="name_field" placeholder="Name" required>
     <input type="text" name="user_field" placeholder="Username" required>
@@ -9,5 +9,50 @@
     <input type="password" name="password_confirm" placeholder="Confirm Password" required>
     <input type="submit" name="submit_button" value="Sign Up">
     <a href="/login" target="_blank">Already registered? Goto Login Page.</a>
-</form>
+</form> -->
+<div class="blur">
+    <div class="top-text">
+            <h1 class="top-text-h1" > < FD /> Forge Dth </h1>
+            <span class="btn-login">
+              <a href="/login"> Login </a>
+           </span>
+         </div>
+    </div>
+     <div class="main-body">
+       <div class="main-body-text-1">
+
+       </div>
+    <div class="main-body-text">
+       <div class="login-card" style="height: 500px;">
+         <h1>
+             Sign up
+         </h1>
+      <hr/>
+         <form class="container box" action="" method="POST" class="form-box">
+             <input type="text" name="name_field" class="card-input btn-login-padding" placeholder="Name" required> </input>
+       
+                <input placeholder="Username" class="card-input btn-login-padding " type="text"   name="user_field" required>                  
+                </input>
+                <input placeholder="Email" class="card-input btn-login-padding" type="email"  name="email_field" required >                  
+                </input>
+                <input placeholder="Password" class="card-input btn-login-padding" type="password"  name="password_field" required>                  
+                </input>
+                <input placeholder="Password" class="card-input btn-login-padding" name="password_confirm" type="password" required>                  
+                </input>
+                   <br/>
+                      <br/> 
+                         <a href="/login">already have an account? login </a>
+
+                    <br/>
+
+                    <br/>
+
+                    <input class="btn-long"  type="submit" name="submit_button" value="Sign Up">    </input> 
+          </form>
+     </div>
+    </div>
+</div>
+
+
+
 {% endblock %}

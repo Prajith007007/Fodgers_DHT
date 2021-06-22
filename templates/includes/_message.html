@@ -2,7 +2,8 @@
   {% if messages %}
     <ul class=flashes>
     {% for category, message in messages %}
-      <div class="alert alert-{{ category }}">{{ message }}</div>
+      <!-- <div class="alert alert-{{ category }}">{{ message }}</div> -->
+      {{message}}
     {% endfor %}
     </ul>
   {% endif %}
